@@ -1,16 +1,16 @@
 const sqlite3 = require("sqlite3").verbose();
 
-const db = new sqlite3.Database(":memory:");
+const db = new sqlite3.Database();
 
 db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS categories (
+    db.run(`CREATE TABLE IF NOT EXISTS categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     slug TEXT NOT NULL,
     icon TEXT
   )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS products (
+    db.run(`CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     images TEXT,
