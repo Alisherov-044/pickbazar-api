@@ -27,7 +27,7 @@ router.post("/categories", (req, res) => {
 
 router.delete("/categories/:id", (req, res) => {
     const { id } = req.params;
-    const query = "DELETE FROM categories WHERE (id) VALUES = ?";
+    const query = "DELETE FROM categories WHERE id = ?";
     db.run(query, id, function (err) {
         if (err) return res.status(500).json({ error: err.message });
         res.status(201).json({ id: this.lastID });
@@ -48,7 +48,7 @@ router.get("/products", (req, res) => {
 
 router.delete("/products/:id", (req, res) => {
     const { id } = req.params;
-    const query = "DELETE FROM categories WHERE (id) VALUES = ?";
+    const query = "DELETE FROM categories WHERE id = ?";
     db.run(query, id, function (err) {
         if (err) return res.status(500).json({ error: err.message });
         res.status(201).json({ id: this.lastID });
