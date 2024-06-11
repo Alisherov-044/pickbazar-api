@@ -48,8 +48,24 @@ router.get("/products", (req, res) => {
 
 router.delete("/products/:id", (req, res) => {
     const { id } = req.params;
-    const query = "DELETE FROM categories WHERE id = ?";
+    const query = "DELETE FROM products WHERE id = ?";
     db.run(query, id, function (err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ id: this.lastID });
+    });
+});
+
+router.post("/categories/clear", (req, res) => {
+    const query = "DELETE * FROM categories";
+    db.run(query, function (err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ id: this.lastID });
+    });
+});
+
+router.post("/products/clear", (req, res) => {
+    const query = "DELETE * FROM products";
+    db.run(query, function (err) {
         if (err) return res.status(500).json({ error: err.message });
         res.status(201).json({ id: this.lastID });
     });
