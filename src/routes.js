@@ -25,6 +25,17 @@ router.post("/categories", (req, res) => {
     });
 });
 
+router.patch("/categories/:id", (req, res) => {
+    const { id } = req.params;
+    const { name, slug, icon } = req.body;
+    const query =
+        "UPDATE categories SET name = ?, slug = ?, icon = ? WHERE id = ?";
+    db.run(query, [name, slug, icon, id], function (err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ id: this.lastID });
+    });
+});
+
 router.delete("/categories/:id", (req, res) => {
     const { id } = req.params;
     const query = "DELETE FROM categories WHERE id = ?";
@@ -88,6 +99,34 @@ router.post("/products", (req, res) => {
             description,
             rating,
             category_id,
+        ],
+        function (err) {
+            if (err) return res.status(500).json({ error: err.message });
+            res.status(201).json({ id: this.lastID });
+        }
+    );
+});
+
+router.patch("/products/:id", (req, res) => {
+    const { id } = req.params;
+    const { name, images, price, discount, description, rating, category_id } =
+        req.body;
+    const query = `
+    UPDATE products
+    SET name = ?, images = ?, price = ?, discount = ?, description = ?, rating = ?, category_id = ?
+    WHERE id = ?
+  `;
+    db.run(
+        query,
+        [
+            name,
+            arrayToString(images),
+            price,
+            discount,
+            description,
+            rating,
+            category_id,
+            id,
         ],
         function (err) {
             if (err) return res.status(500).json({ error: err.message });
